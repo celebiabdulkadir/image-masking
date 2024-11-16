@@ -6,30 +6,20 @@ import { BiBrush, BiRectangle } from "react-icons/bi";
 import { HiHandRaised } from "react-icons/hi2";
 import { FaUndo } from "react-icons/fa";
 import { PiExportLight } from "react-icons/pi";
+import { Position, DrawingMode, FreehandPath, BrushPath } from "@/types/types";
 
 const ImageCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [image, setImage] = useState<HTMLImageElement | null>(null);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [hasSelection, setHasSelection] = useState(false);
-  const [mode, setMode] = useState<"rectangle" | "freehand" | "brushing">(
-    "rectangle"
-  );
-  const [startPos, setStartPos] = useState<{ x: number; y: number } | null>(
-    null
-  );
-  const [endPos, setEndPos] = useState<{ x: number; y: number } | null>(null);
+  const [isDrawing, setIsDrawing] = useState<boolean>(false);
+  const [hasSelection, setHasSelection] = useState<boolean>(false);
+  const [mode, setMode] = useState<DrawingMode>("rectangle");
+  const [startPos, setStartPos] = useState<Position | null>(null);
+  const [endPos, setEndPos] = useState<Position | null>(null);
 
-  const [freehandPath, setFreehandPath] = useState<
-    Array<{ x: number; y: number }>
-  >([]);
-
-  const [brushPaths, setBrushPaths] = useState<
-    Array<Array<{ x: number; y: number }>>
-  >([]);
-  const [currentPath, setCurrentPath] = useState<
-    Array<{ x: number; y: number }>
-  >([]);
+  const [freehandPath, setFreehandPath] = useState<FreehandPath>([]);
+  const [brushPaths, setBrushPaths] = useState<BrushPath>([]);
+  const [currentPath, setCurrentPath] = useState<FreehandPath>([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -314,6 +304,11 @@ const ImageCanvas = () => {
     link.click();
   };
 
+  const changeMode = (newMode: "rectangle" | "freehand" | "brushing") => {
+    resetAllModes();
+    setMode(newMode);
+  };
+
   return (
     <div className="flex flex-col items-center w-full gap-2">
       <UploadComponent onImageUpload={handleImageUpload} />
@@ -321,10 +316,7 @@ const ImageCanvas = () => {
         <div className="mt-4 flex flex-col sm:flex-row gap-2 w-full justify-center">
           <div className="flex flex-col sm:flex-row gap-2">
             <button
-              onClick={() => {
-                resetAllModes();
-                setMode("rectangle");
-              }}
+              onClick={() => changeMode("rectangle")}
               className={`px-4 flex items-center gap-2 py-2 rounded ${
                 mode === "rectangle" ? "bg-blue-600 text-white" : "bg-gray-200"
               }`}
@@ -333,10 +325,7 @@ const ImageCanvas = () => {
               <span>Rectangle</span>
             </button>
             <button
-              onClick={() => {
-                resetAllModes();
-                setMode("freehand");
-              }}
+              onClick={() => changeMode("freehand")}
               className={`px-4 py-2 flex gap-2 items-center rounded ${
                 mode === "freehand" ? "bg-blue-600 text-white" : "bg-gray-200"
               }`}
@@ -345,10 +334,7 @@ const ImageCanvas = () => {
               <span>Freehand</span>
             </button>
             <button
-              onClick={() => {
-                resetAllModes();
-                setMode("brushing");
-              }}
+              onClick={() => changeMode("brushing")}
               className={`px-4 py-2 flex gap-2 items-center rounded ${
                 mode === "brushing" ? "bg-blue-600 text-white" : "bg-gray-200"
               }`}
