@@ -17,7 +17,7 @@ const Footer = () => {
 
         {/* Center Section: Links */}
         <nav>
-          <ul className="flex flex-col sm:flex-row  text-sm sm:text-base">
+          <ul className="flex flex-col sm:flex-row gap-2  text-sm sm:text-base">
             <li>
               <Link
                 href="/help"

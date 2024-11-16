@@ -1,8 +1,11 @@
+"use client";
 import React from "react";
-import { BiBrush, BiRectangle } from "react-icons/bi";
-import { FaUndo } from "react-icons/fa";
-import { HiHandRaised } from "react-icons/hi2";
-import { PiExportLight } from "react-icons/pi";
+
+import { FaBrush, FaPen, FaSquare, FaUndo } from "react-icons/fa";
+import { FaFileExport } from "react-icons/fa6";
+
+import ConfirmModal from "./modals/ConfirmModal";
+import Notification from "./notification/Notification";
 
 interface ToolBarProps {
   mode: string;
@@ -19,62 +22,86 @@ const ToolBar: React.FC<ToolBarProps> = ({
   resetAllModes,
   exportBinaryMask,
 }) => {
+  const [confirmModalOpen, setConfirmModalOpen] = React.useState(false);
+  const [notificationOpen, setNotificationOpen] = React.useState(false);
+  const onConfirm = () => {
+    setConfirmModalOpen(false);
+    exportBinaryMask();
+    setNotificationOpen(true);
+  };
   return (
-    <div className="mt-4 flex flex-col sm:flex-row gap-2 w-full justify-center">
-      <div className="flex flex-col sm:flex-row gap-2">
-        <button
-          onClick={() => changeMode("rectangle")}
-          className={`px-4 flex items-center gap-2 py-2 rounded ${
-            mode === "rectangle" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-        >
-          <BiRectangle />
-          <span>Rectangle</span>
-        </button>
-        <button
-          onClick={() => changeMode("freehand")}
-          className={`px-4 py-2 flex gap-2 items-center rounded ${
-            mode === "freehand" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-        >
-          <HiHandRaised />
-          <span>Freehand</span>
-        </button>
-        <button
-          onClick={() => changeMode("brushing")}
-          className={`px-4 py-2 flex gap-2 items-center rounded ${
-            mode === "brushing" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-        >
-          <BiBrush />
-          <span>Brushing</span>
-        </button>
-        <button
-          disabled={!hasSelection}
-          onClick={resetAllModes}
-          className={`flex gap-2 items-center px-4 py-2 rounded ${
-            !hasSelection
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-red-500 text-white hover:bg-red-600"
-          }`}
-        >
-          <FaUndo />
-          <span>Reset</span>
-        </button>
+    <>
+      {confirmModalOpen && (
+        <ConfirmModal
+          isOpen={confirmModalOpen}
+          message="Are you sure you want to export this image?"
+          onConfirm={onConfirm}
+          onCancel={() => setConfirmModalOpen(false)}
+        />
+      )}
+      {notificationOpen && (
+        <Notification
+          message="Masked Image has downloaded successfully!"
+          type="success"
+          duration={3000}
+          onClose={() => setNotificationOpen(false)}
+        />
+      )}
+      <div className=" flex flex-col sm:flex-row gap-2  justify-center">
+        <div className="flex gap-2">
+          <button
+            onClick={() => changeMode("rectangle")}
+            className={`px-4 flex flex-col items-center gap-2 py-2 rounded ${
+              mode === "rectangle" ? "bg-black text-white" : "bg-gray-200"
+            }`}
+          >
+            <FaSquare />
+            <span className="hidden md:block">Rectangle</span>
+          </button>
+          <button
+            onClick={() => changeMode("freehand")}
+            className={`px-4 py-2 flex flex-col gap-2 items-center rounded ${
+              mode === "freehand" ? "bg-black text-white" : "bg-gray-200"
+            }`}
+          >
+            <FaPen />
+            <span className="hidden md:block">Freehand</span>
+          </button>
+          <button
+            onClick={() => changeMode("brushing")}
+            className={`px-4 py-2 flex flex-col gap-2 items-center rounded ${
+              mode === "brushing" ? "bg-black text-white" : "bg-gray-200"
+            }`}
+          >
+            <FaBrush />
+            <span className="hidden md:block">Brushing</span>
+          </button>
+          <button
+            disabled={!hasSelection}
+            onClick={resetAllModes}
+            className={`flex flex-col gap-2 items-center px-4 py-2 rounded ${
+              !hasSelection
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-gray-200 hover:text-white text-black hover:bg-black"
+            }`}
+          >
+            <FaUndo />
+            <span className="hidden md:block">Reset</span>
+          </button>
+          <button
+            onClick={() => setConfirmModalOpen(true)}
+            disabled={!hasSelection}
+            className={`px-4 py-2 rounded flex flex-col gap-2 items-center ${
+              !hasSelection
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-green-500 text-white hover:bg-green-600"
+            }`}
+          >
+            <FaFileExport /> <span className="hidden md:block">Export</span>
+          </button>
+        </div>
       </div>
-
-      <button
-        onClick={exportBinaryMask}
-        disabled={!hasSelection}
-        className={`px-4 py-2 rounded flex gap-2 items-center ${
-          !hasSelection
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-green-500 text-white hover:bg-green-600"
-        }`}
-      >
-        <PiExportLight /> Export
-      </button>
-    </div>
+    </>
   );
 };
 

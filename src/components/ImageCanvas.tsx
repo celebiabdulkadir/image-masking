@@ -4,9 +4,11 @@ import React, { useEffect, useRef, useState } from "react";
 import UploadComponent from "./UploadButton";
 import { Position, DrawingMode, FreehandPath, BrushPath } from "@/types/types";
 import ToolBar from "./ToolBar";
+import useClickOutside from "@/hooks/useClickOutside"; // Import the custom hook
 
 const ImageCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
   const [hasSelection, setHasSelection] = useState<boolean>(false);
@@ -48,8 +50,20 @@ const ImageCanvas = () => {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       if (image) {
+        // Draw the uploaded image
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-        redrawBrushPaths(ctx);
+        redrawBrushPaths(ctx); // Redraw brush paths if they exist
+      } else {
+        // Draw placeholder text
+        ctx.fillStyle = "#aaa";
+        ctx.font = "20px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(
+          "Upload an image for masking",
+          canvas.width / 2,
+          canvas.height / 2
+        );
       }
     };
 
@@ -238,8 +252,8 @@ const ImageCanvas = () => {
     const tempCtx = tempCanvas.getContext("2d");
     if (!tempCtx) return;
 
-    // Fill with white background
-    tempCtx.fillStyle = "#FFFFFF";
+    // Fill with black background
+    tempCtx.fillStyle = "#000000"; // Black background
     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
 
     // Calculate scale factor between canvas and original image
@@ -248,9 +262,9 @@ const ImageCanvas = () => {
     const scaleX = image.width / canvas.width;
     const scaleY = image.height / canvas.height;
 
-    // Set black color for selections
-    tempCtx.fillStyle = "#000000";
-    tempCtx.strokeStyle = "#000000";
+    // Set white color for selections
+    tempCtx.fillStyle = "#FFFFFF"; // White fill for selected areas
+    tempCtx.strokeStyle = "#FFFFFF"; // White stroke for selected areas
 
     // Draw rectangle selection if exists
     if (mode === "rectangle" && startPos && endPos) {
@@ -305,25 +319,55 @@ const ImageCanvas = () => {
     resetAllModes();
     setMode(newMode);
   };
+  const handleTouchStart = (event: React.TouchEvent<HTMLCanvasElement>) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const touch = event.touches[0];
+    startDrawing(touch.clientX - rect.left, touch.clientY - rect.top);
+  };
+
+  const handleTouchMove = (event: React.TouchEvent<HTMLCanvasElement>) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const touch = event.touches[0];
+    draw(touch.clientX - rect.left, touch.clientY - rect.top);
+  };
+
+  const handleTouchEnd = () => {
+    stopDrawing();
+  };
+
+  useClickOutside(canvasContainerRef, resetAllModes);
 
   return (
-    <div className="flex flex-col items-center w-full gap-2">
+    <div
+      ref={canvasContainerRef}
+      className="flex flex-col items-center w-full gap-2"
+    >
       <UploadComponent onImageUpload={handleImageUpload} />
-      {image && (
-        <ToolBar
-          mode={mode}
-          hasSelection={hasSelection}
-          changeMode={changeMode}
-          resetAllModes={resetAllModes}
-          exportBinaryMask={exportBinaryMask}
-        />
-      )}
+      {/* Always render the toolbar container */}
+      <div className="w-full md:min-h-16 min-h-8 flex items-center justify-center">
+        {image ? (
+          <ToolBar
+            mode={mode}
+            hasSelection={hasSelection}
+            changeMode={changeMode}
+            resetAllModes={resetAllModes}
+            exportBinaryMask={exportBinaryMask}
+          />
+        ) : (
+          <span className="text-gray-500">Upload an image to start</span>
+        )}
+      </div>
       <canvas
         ref={canvasRef}
         className="max-w-full rounded-lg"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       />
     </div>
   );

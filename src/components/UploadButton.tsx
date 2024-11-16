@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useRef, useState, ChangeEvent, DragEvent } from "react";
-import { FaUpload } from "react-icons/fa";
+import { FaPlus, FaPlusSquare, FaUpload } from "react-icons/fa";
+import { FaPlusMinus } from "react-icons/fa6";
 
 interface UploadComponentProps {
   onImageUpload: (image: HTMLImageElement) => void;
@@ -65,11 +66,10 @@ const UploadComponent = ({ onImageUpload }: UploadComponentProps) => {
         onDrop={handleDrop}
       >
         <div className="flex flex-col items-center gap-4">
-          <FaUpload />
           <div className="flex gap-4 items-center">
             <label htmlFor="file-upload" className="relative cursor-pointer">
-              <span className="bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200 transition-colors">
-                Choose File
+              <span className="bg-blue-100 flex  text-blue-800 px-4 py-2 rounded gap-2 items-center hover:bg-blue-200 transition-colors">
+                <FaUpload /> Choose File
               </span>
               <input
                 id="file-upload"
