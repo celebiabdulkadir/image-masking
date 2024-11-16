@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+"use client";
+import React, { useRef, useState } from "react";
 
 const UploadComponent = ({
   onImageUpload,
+  onRemoveImage,
+  hasImage, // Prop to control button visibility
 }: {
   onImageUpload: (image: HTMLImageElement) => void;
+  onRemoveImage: () => void;
+  hasImage: boolean; // Indicates if an image is selected
 }) => {
-  // const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null); // Reference for the file input
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -20,22 +25,38 @@ const UploadComponent = ({
     const img = new Image();
     img.src = url;
     img.onload = () => {
-      // setPreview(url);
       onImageUpload(img);
     };
   };
 
+  const handleRemoveImage = () => {
+    // Clear the file input value
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the file input
+    }
+    onRemoveImage(); // Notify the parent component
+  };
+
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-row items-center justify-center">
       <input
+        ref={fileInputRef} // Attach the ref to the file input
         type="file"
         accept="image/png, image/jpeg, image/jpg"
         onChange={handleImageUpload}
         className="mb-4"
       />
-      {/* {preview && (
-        <img src={preview} alt="Preview" className="max-w-full max-h-96" />
-      )} */}
+
+      {/* Conditional rendering of the Remove button */}
+      {hasImage && (
+        <button
+          disabled={!hasImage}
+          onClick={handleRemoveImage}
+          className="bg-red-500 text-white px-4 py-2 rounded"
+        >
+          Remove Image
+        </button>
+      )}
     </div>
   );
 };

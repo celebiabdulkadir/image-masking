@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import UploadComponent from "./UploadButton";
 import ExportComponent from "./ExportButton";
 
@@ -25,6 +25,26 @@ const ImageCanvas = () => {
   >([]);
   const [brushSize, setBrushSize] = useState(10); // Default brush size
 
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Set default canvas height
+    const canvasHeight = window.innerHeight / 1.75; // Fixed height
+    const defaultAspectRatio = 16 / 9; // Default aspect ratio
+    const canvasWidth = canvasHeight * defaultAspectRatio; // Width based on aspect ratio
+
+    // Set canvas dimensions
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    // Optionally add a background color
+    ctx.fillStyle = "#FFFFFF"; // White background
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }, []);
   const handleImageUpload = (img: HTMLImageElement) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -33,7 +53,7 @@ const ImageCanvas = () => {
     if (!ctx) return;
 
     // Calculate canvas dimensions
-    const canvasHeight = window.innerHeight / 1.5; // Half of the screen height
+    const canvasHeight = window.innerHeight / 1.75; // Half of the screen height
     const aspectRatio = img.width / img.height;
     const canvasWidth = canvasHeight * aspectRatio; // Width based on aspect ratio
 
@@ -47,6 +67,17 @@ const ImageCanvas = () => {
 
     setImage(img);
     setHasSelection(false); // Reset selection when a new image is uploaded
+  };
+  const handleRemoveImage = () => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+      }
+    }
+    setImage(null); // Clear the image state
+    setHasSelection(false); // Reset selection state
   };
 
   const resetCanvas = () => {
@@ -181,8 +212,11 @@ const ImageCanvas = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <UploadComponent onImageUpload={handleImageUpload} />
-
+      <UploadComponent
+        hasImage={!!image}
+        onImageUpload={handleImageUpload}
+        onRemoveImage={handleRemoveImage}
+      />
       {/* Canvas */}
       <canvas
         ref={canvasRef}
@@ -229,8 +263,14 @@ const ImageCanvas = () => {
           </button>
         </div>
         <button
+          disabled={!hasSelection}
           onClick={resetAllModes}
-          className="bg-red-500 text-white px-4 py-2 rounded"
+
+          className={`bg-red-500 text-white px-4 py-2 rounded ${
+            !hasSelection
+              ? "bg-red-300 cursor-not-allowed"
+              : "bg-red-500 text-white hover:bg-red-600"
+          }`}
         >
           Delete Selection
         </button>
