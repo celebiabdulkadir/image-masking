@@ -32,10 +32,19 @@ const ImageCanvas = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Set canvas dimensions and draw the image
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0, img.width, img.height);
+    // Calculate canvas dimensions
+    const canvasHeight = window.innerHeight / 1.5; // Half of the screen height
+    const aspectRatio = img.width / img.height;
+    const canvasWidth = canvasHeight * aspectRatio; // Width based on aspect ratio
+
+    // Set canvas dimensions
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    // Draw the image onto the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
     setImage(img);
     setHasSelection(false); // Reset selection when a new image is uploaded
   };
@@ -99,8 +108,12 @@ const ImageCanvas = () => {
       const rectWidth = x - startPos.x;
       const rectHeight = y - startPos.y;
 
-      ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
+      ctx.fillStyle = "rgba(144, 238, 144, 0.3)"; // Light green fill
+      ctx.strokeStyle = "rgba(34, 139, 34, 0.7)"; // Darker green stroke
+      ctx.lineWidth = 2;
+
       ctx.fillRect(startPos.x, startPos.y, rectWidth, rectHeight);
+      ctx.strokeRect(startPos.x, startPos.y, rectWidth, rectHeight);
       setHasSelection(true);
     } else if (mode === "freehand" && freehandPath.length > 0) {
       // Draw freehand selection with filled area
@@ -111,11 +124,13 @@ const ImageCanvas = () => {
       });
       ctx.lineTo(x, y); // Connect current mouse position
       ctx.closePath();
-      ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
-      ctx.fill(); // Fill the area
-      ctx.strokeStyle = "rgba(255, 0, 0, 0.5)";
+
+      ctx.fillStyle = "rgba(144, 238, 144, 0.3)"; // Light green fill
+      ctx.strokeStyle = "rgba(34, 139, 34, 0.7)"; // Darker green stroke
       ctx.lineWidth = 2;
-      ctx.stroke();
+
+      ctx.fill(); // Fill the area
+      ctx.stroke(); // Draw the outline
 
       setFreehandPath((prev) => [...prev, { x, y }]);
       setHasSelection(true);
@@ -123,8 +138,8 @@ const ImageCanvas = () => {
       // Redraw all brush paths
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
-      ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
-      ctx.lineWidth = 10;
+      ctx.strokeStyle = "rgba(34, 139, 34, 0.7)"; // Darker green stroke
+      ctx.lineWidth = brushSize;
 
       brushPaths.forEach((path) => {
         ctx.beginPath();
