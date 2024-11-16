@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useRef, useState, ChangeEvent, DragEvent } from "react";
-import { FaPlus, FaPlusSquare, FaUpload } from "react-icons/fa";
-import { FaPlusMinus } from "react-icons/fa6";
+import { FaUpload } from "react-icons/fa";
 
 interface UploadComponentProps {
   onImageUpload: (image: HTMLImageElement) => void;
