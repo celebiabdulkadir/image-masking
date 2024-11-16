@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { BiExport } from "react-icons/bi";
 
 const ExportComponent = ({
   canvasRef,
@@ -22,13 +23,13 @@ const ExportComponent = ({
     <button
       onClick={exportCanvas}
       disabled={disabled}
-      className={`px-4 py-2 rounded ${
+      className={`px-4 flex gap-2 items-center py-2 rounded ${
         disabled
           ? "bg-gray-400 cursor-not-allowed"
           : "bg-blue-500 text-white hover:bg-blue-600"
       }`}
     >
-      Export Mask
+      <BiExport /> <span> Export </span>
     </button>
   );
 };
