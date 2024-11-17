@@ -71,7 +71,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
         <div className="flex gap-2">
           <button
             onClick={() => changeMode("rectangle")}
-            className={`px-4 flex flex-col items-center gap-2 py-2 rounded-full md:w-28 ${
+            className={`px-4 flex items-center gap-2 py-2 rounded-md md:w-32 ${
               mode === "rectangle" ? "bg-black text-white" : "bg-gray-200"
             }`}
           >
@@ -80,7 +80,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
           </button>
           <button
             onClick={() => changeMode("freehand")}
-            className={`px-4 py-2 flex flex-col gap-2 items-center rounded-full md:w-28 ${
+            className={`px-4 py-2 flex gap-2 items-center rounded-md md:w-32 ${
               mode === "freehand" ? "bg-black text-white" : "bg-gray-200"
             }`}
           >
@@ -89,7 +89,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
           </button>
           <button
             onClick={() => changeMode("brushing")}
-            className={`px-4 py-2 flex flex-col gap-2 items-center rounded-full md:w-28 ${
+            className={`px-4 py-2 flex gap-2 items-center rounded-md md:w-32 ${
               mode === "brushing" ? "bg-black text-white" : "bg-gray-200"
             }`}
           >
@@ -101,7 +101,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
           <button
             disabled={!hasSelection}
             onClick={resetAllModes}
-            className={`flex flex-col gap-2 items-center px-4 py-2 rounded-full md:w-28 ${
+            className={`flex gap-2 items-center px-4 py-2 rounded-md md:w-32 ${
               !hasSelection
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-gray-200 hover:text-white text-black hover:bg-black"
@@ -113,7 +113,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
           <button
             onClick={handleExport}
             disabled={!hasSelection}
-            className={`px-4 py-2  flex flex-col gap-2 rounded-full md:w-28 items-center ${
+            className={`px-4 py-2  flex gap-2 rounded-md md:w-32 items-center ${
               !hasSelection
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 "
