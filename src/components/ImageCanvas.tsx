@@ -38,7 +38,7 @@ const ImageCanvas = () => {
         canvasHeight =
           canvasWidth / (image ? image.width / image.height : 16 / 9);
       } else {
-        canvasHeight = screenHeight * 0.6;
+        canvasHeight = screenHeight * 0.55;
         canvasWidth =
           canvasHeight * (image ? image.width / image.height : 16 / 9);
       }
@@ -54,16 +54,44 @@ const ImageCanvas = () => {
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
         redrawBrushPaths(ctx); // Redraw brush paths if they exist
       } else {
-        // Draw placeholder text
-        ctx.fillStyle = "#aaa";
-        ctx.font = "20px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(
-          "Upload an image for masking",
-          canvas.width / 2,
-          canvas.height / 2
-        );
+        // Draw placeholder image and text
+        const placeholderImage = new Image();
+        placeholderImage.src = "/placeholderimage.png"; // Ensure placeholder.png is in the public folder
+        placeholderImage.onload = () => {
+          const placeholderAspectRatio =
+            placeholderImage.width / placeholderImage.height;
+
+          let placeholderWidth = canvas.width * 0.5; // Placeholder width as 50% of canvas
+          let placeholderHeight = placeholderWidth / placeholderAspectRatio;
+
+          // Adjust dimensions to fit within the canvas
+          if (placeholderHeight > canvas.height * 0.3) {
+            placeholderHeight = canvas.height * 0.3;
+            placeholderWidth = placeholderHeight * placeholderAspectRatio;
+          }
+
+          const x = (canvas.width - placeholderWidth) / 2; // Center horizontally
+          const y = (canvas.height - placeholderHeight) / 2 - 20; // Center vertically above text
+
+          ctx.drawImage(
+            placeholderImage,
+            x,
+            y,
+            placeholderWidth,
+            placeholderHeight
+          );
+
+          // Draw placeholder text below the image
+          ctx.fillStyle = "#aaa";
+          ctx.font = "20px Arial";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "top";
+          ctx.fillText(
+            "No image selected!",
+            canvas.width / 2,
+            y + placeholderHeight + 10
+          );
+        };
       }
     };
 
@@ -91,7 +119,7 @@ const ImageCanvas = () => {
       canvasWidth = screenWidth * 0.9;
       canvasHeight = canvasWidth / (img.width / img.height);
     } else {
-      canvasHeight = screenHeight * 0.6;
+      canvasHeight = screenHeight * 0.55;
       canvasWidth = canvasHeight * (img.width / img.height);
     }
 
@@ -336,6 +364,10 @@ const ImageCanvas = () => {
       ref={canvasContainerRef}
       className="flex flex-col items-center w-full gap-2"
     >
+      {" "}
+      <h1 className="text-md md:text-lg lg:text-2xl py-4">
+        Image Masking Tool: Upload, Edit, Export
+      </h1>
       <UploadComponent onImageUpload={handleImageUpload} />
       {/* Always render the toolbar container */}
       <div className="w-full md:min-h-16 min-h-8 flex items-center justify-center">
@@ -348,19 +380,21 @@ const ImageCanvas = () => {
             exportBinaryMask={exportBinaryMask}
           />
         ) : (
-          <span className="text-gray-500">Upload an image to start</span>
+          <span className="text-gray-500"></span>
         )}
       </div>
-      <canvas
-        ref={canvasRef}
-        className="max-w-full rounded-lg"
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      />
+      <div className="min-h-[55dvh] relative">
+        <canvas
+          ref={canvasRef}
+          className="max-w-full rounded-lg"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        />
+      </div>
     </div>
   );
 };

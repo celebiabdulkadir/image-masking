@@ -67,11 +67,11 @@ const ToolBar: React.FC<ToolBarProps> = ({
           onClose={() => setNotificationOpen(false)}
         />
       )}
-      <div className="flex flex-col sm:flex-row gap-2 justify-center">
+      <div className="flex  sm:flex-row gap-2 justify-between w-full">
         <div className="flex gap-2">
           <button
             onClick={() => changeMode("rectangle")}
-            className={`px-4 flex flex-col items-center gap-2 py-2 rounded ${
+            className={`px-4 flex flex-col items-center gap-2 py-2 rounded-full md:w-28 ${
               mode === "rectangle" ? "bg-black text-white" : "bg-gray-200"
             }`}
           >
@@ -80,7 +80,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
           </button>
           <button
             onClick={() => changeMode("freehand")}
-            className={`px-4 py-2 flex flex-col gap-2 items-center rounded ${
+            className={`px-4 py-2 flex flex-col gap-2 items-center rounded-full md:w-28 ${
               mode === "freehand" ? "bg-black text-white" : "bg-gray-200"
             }`}
           >
@@ -89,17 +89,19 @@ const ToolBar: React.FC<ToolBarProps> = ({
           </button>
           <button
             onClick={() => changeMode("brushing")}
-            className={`px-4 py-2 flex flex-col gap-2 items-center rounded ${
+            className={`px-4 py-2 flex flex-col gap-2 items-center rounded-full md:w-28 ${
               mode === "brushing" ? "bg-black text-white" : "bg-gray-200"
             }`}
           >
             <FaBrush />
             <span className="hidden md:block">Brushing</span>
           </button>
+        </div>
+        <div className="flex gap-2">
           <button
             disabled={!hasSelection}
             onClick={resetAllModes}
-            className={`flex flex-col gap-2 items-center px-4 py-2 rounded ${
+            className={`flex flex-col gap-2 items-center px-4 py-2 rounded-full md:w-28 ${
               !hasSelection
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-gray-200 hover:text-white text-black hover:bg-black"
@@ -111,10 +113,10 @@ const ToolBar: React.FC<ToolBarProps> = ({
           <button
             onClick={handleExport}
             disabled={!hasSelection}
-            className={`px-4 py-2 rounded flex flex-col gap-2 items-center ${
+            className={`px-4 py-2  flex flex-col gap-2 rounded-full md:w-28 items-center ${
               !hasSelection
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-500 text-white hover:bg-green-600"
+                : "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 "
             }`}
           >
             <FaFileExport /> <span className="hidden md:block">Export</span>

@@ -27,7 +27,7 @@ export default function RootLayout({
         <Header />
 
         {/* Main Content */}
-        <main className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] px-4">
+        <main className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] px-4">
           {children}
         </main>
 

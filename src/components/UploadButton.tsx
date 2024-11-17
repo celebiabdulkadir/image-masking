@@ -57,8 +57,9 @@ const UploadComponent = ({ onImageUpload }: UploadComponentProps) => {
         className={`border-2 border-dashed rounded-lg p-2 text-center transition-colors
           ${
             isDragging
-              ? "border-blue-500 bg-blue-50"
-              : "border-gray-200 hover:border-blue-300"
+              ? "border-primary-500 bg-primary-50"
+              : "border-secondary-200 hover:border-primary-300"
+          }
           }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}

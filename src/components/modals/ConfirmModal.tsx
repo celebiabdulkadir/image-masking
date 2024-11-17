@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useRef } from "react";
+import useClickOutside from "@/hooks/useClickOutside";
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -16,13 +18,19 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   onCancel,
   previewImageUrl,
 }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+  useClickOutside(modalRef, onCancel);
+
   if (!isOpen) {
-    return null;
+    return null; // Render nothing if modal is not open
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 max-w-xl w-full">
+      <div
+        ref={modalRef}
+        className="bg-white rounded-lg shadow-lg p-6 max-w-xl w-full"
+      >
         <h2 className="text-xl font-bold text-gray-800 text-center mb-4">
           Confirmation
         </h2>
@@ -45,16 +53,16 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
         <div className="flex justify-center space-x-4">
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
-            onClick={onConfirm}
-          >
-            Confirm
-          </button>
-          <button
             className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded"
             onClick={onCancel}
           >
             Cancel
+          </button>
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+            onClick={onConfirm}
+          >
+            Confirm
           </button>
         </div>
       </div>
