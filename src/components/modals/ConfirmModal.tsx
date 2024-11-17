@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 
 interface ConfirmModalProps {
-  imageDimensions?: { width: number; height: number };
   isOpen: boolean;
   message: string;
   onConfirm: () => void;
@@ -11,7 +10,6 @@ interface ConfirmModalProps {
 }
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
-  imageDimensions,
   isOpen,
   message,
   onConfirm,

@@ -8,7 +8,6 @@ import ConfirmModal from "./modals/ConfirmModal";
 import Notification from "./notification/Notification";
 
 interface ToolBarProps {
-  imageDimensions: { width: number; height: number };
   mode: string;
   hasSelection: boolean;
   changeMode: (mode: "rectangle" | "freehand" | "brushing") => void;
@@ -17,7 +16,6 @@ interface ToolBarProps {
 }
 
 const ToolBar: React.FC<ToolBarProps> = ({
-  imageDimensions,
   mode,
   hasSelection,
   changeMode,
@@ -57,7 +55,6 @@ const ToolBar: React.FC<ToolBarProps> = ({
           isOpen={confirmModalOpen}
           message="Are you sure you want to download this image?"
           onConfirm={onConfirm}
-          imageDimensions={imageDimensions}
           onCancel={() => setConfirmModalOpen(false)}
           previewImageUrl={previewImageUrl || undefined} // Pass the preview image URL
         />

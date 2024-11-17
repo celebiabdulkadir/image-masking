@@ -19,10 +19,6 @@ const ImageCanvas = () => {
   const [freehandPath, setFreehandPath] = useState<FreehandPath>([]);
   const [brushPaths, setBrushPaths] = useState<BrushPath>([]);
   const [currentPath, setCurrentPath] = useState<FreehandPath>([]);
-  const [imageDimensions, setImageDimensions] = useState<{
-    width: number;
-    height: number;
-  }>({ width: 0, height: 0 });
 
   useEffect(() => {
     const handleResize = () => {
@@ -106,7 +102,6 @@ const ImageCanvas = () => {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
     setImage(img);
-    setImageDimensions({ width: img.width, height: img.height });
   };
 
   const redrawBrushPaths = (ctx: CanvasRenderingContext2D) => {
@@ -351,7 +346,6 @@ const ImageCanvas = () => {
             changeMode={changeMode}
             resetAllModes={resetAllModes}
             exportBinaryMask={exportBinaryMask}
-            imageDimensions={imageDimensions}
           />
         ) : (
           <span className="text-gray-500">Upload an image to start</span>
