@@ -8,14 +8,16 @@ import ConfirmModal from "./modals/ConfirmModal";
 import Notification from "./notification/Notification";
 
 interface ToolBarProps {
+  imageDimensions: { width: number; height: number };
   mode: string;
   hasSelection: boolean;
   changeMode: (mode: "rectangle" | "freehand" | "brushing") => void;
   resetAllModes: () => void;
-  exportBinaryMask: () => void;
+  exportBinaryMask: () => string | null; // Modify to return the image URL
 }
 
 const ToolBar: React.FC<ToolBarProps> = ({
+  imageDimensions,
   mode,
   hasSelection,
   changeMode,
@@ -24,19 +26,40 @@ const ToolBar: React.FC<ToolBarProps> = ({
 }) => {
   const [confirmModalOpen, setConfirmModalOpen] = React.useState(false);
   const [notificationOpen, setNotificationOpen] = React.useState(false);
-  const onConfirm = () => {
-    setConfirmModalOpen(false);
-    exportBinaryMask();
-    setNotificationOpen(true);
+  const [previewImageUrl, setPreviewImageUrl] = React.useState<string | null>(
+    null
+  );
+
+  const handleExport = () => {
+    const imageUrl = exportBinaryMask(); // Get the binary mask preview URL
+    if (imageUrl) {
+      setPreviewImageUrl(imageUrl);
+      setConfirmModalOpen(true);
+    }
   };
+
+  const onConfirm = () => {
+    if (previewImageUrl) {
+      const link = document.createElement("a");
+      link.download = "binary_mask.png";
+      link.href = previewImageUrl;
+      link.click();
+    }
+    setConfirmModalOpen(false);
+    setNotificationOpen(true); // Show notification after download
+    setPreviewImageUrl(null);
+  };
+
   return (
     <>
       {confirmModalOpen && (
         <ConfirmModal
           isOpen={confirmModalOpen}
-          message="Are you sure you want to export this image?"
+          message="Are you sure you want to download this image?"
           onConfirm={onConfirm}
+          imageDimensions={imageDimensions}
           onCancel={() => setConfirmModalOpen(false)}
+          previewImageUrl={previewImageUrl || undefined} // Pass the preview image URL
         />
       )}
       {notificationOpen && (
@@ -47,7 +70,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
           onClose={() => setNotificationOpen(false)}
         />
       )}
-      <div className=" flex flex-col sm:flex-row gap-2  justify-center">
+      <div className="flex flex-col sm:flex-row gap-2 justify-center">
         <div className="flex gap-2">
           <button
             onClick={() => changeMode("rectangle")}
@@ -89,7 +112,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
             <span className="hidden md:block">Reset</span>
           </button>
           <button
-            onClick={() => setConfirmModalOpen(true)}
+            onClick={handleExport}
             disabled={!hasSelection}
             className={`px-4 py-2 rounded flex flex-col gap-2 items-center ${
               !hasSelection

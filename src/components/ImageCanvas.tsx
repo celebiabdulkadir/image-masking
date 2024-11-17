@@ -19,6 +19,10 @@ const ImageCanvas = () => {
   const [freehandPath, setFreehandPath] = useState<FreehandPath>([]);
   const [brushPaths, setBrushPaths] = useState<BrushPath>([]);
   const [currentPath, setCurrentPath] = useState<FreehandPath>([]);
+  const [imageDimensions, setImageDimensions] = useState<{
+    width: number;
+    height: number;
+  }>({ width: 0, height: 0 });
 
   useEffect(() => {
     const handleResize = () => {
@@ -102,6 +106,7 @@ const ImageCanvas = () => {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
     setImage(img);
+    setImageDimensions({ width: img.width, height: img.height });
   };
 
   const redrawBrushPaths = (ctx: CanvasRenderingContext2D) => {
@@ -242,31 +247,28 @@ const ImageCanvas = () => {
   };
 
   const handleMouseUp = stopDrawing;
-  const exportBinaryMask = () => {
-    if (!image) return;
+  const exportBinaryMask = (): string | null => {
+    if (!image) return null;
 
-    // Create a temporary canvas with original image dimensions
     const tempCanvas = document.createElement("canvas");
-    tempCanvas.width = image.width; // Use original image width
-    tempCanvas.height = image.height; // Use original image height
+    tempCanvas.width = image.width;
+    tempCanvas.height = image.height;
     const tempCtx = tempCanvas.getContext("2d");
-    if (!tempCtx) return;
+    if (!tempCtx) return null;
 
     // Fill with black background
-    tempCtx.fillStyle = "#000000"; // Black background
+    tempCtx.fillStyle = "#000000";
     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
 
-    // Calculate scale factor between canvas and original image
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return null;
     const scaleX = image.width / canvas.width;
     const scaleY = image.height / canvas.height;
 
-    // Set white color for selections
-    tempCtx.fillStyle = "#FFFFFF"; // White fill for selected areas
-    tempCtx.strokeStyle = "#FFFFFF"; // White stroke for selected areas
+    tempCtx.fillStyle = "#FFFFFF";
+    tempCtx.strokeStyle = "#FFFFFF";
 
-    // Draw rectangle selection if exists
+    // Draw selections
     if (mode === "rectangle" && startPos && endPos) {
       const rectWidth = (endPos.x - startPos.x) * scaleX;
       const rectHeight = (endPos.y - startPos.y) * scaleY;
@@ -278,7 +280,6 @@ const ImageCanvas = () => {
       );
     }
 
-    // Draw freehand selection if exists
     if (mode === "freehand" && freehandPath.length > 0) {
       tempCtx.beginPath();
       tempCtx.moveTo(freehandPath[0].x * scaleX, freehandPath[0].y * scaleY);
@@ -290,11 +291,10 @@ const ImageCanvas = () => {
       tempCtx.stroke();
     }
 
-    // Draw brush strokes
     if (brushPaths.length > 0) {
       tempCtx.lineCap = "round";
       tempCtx.lineJoin = "round";
-      tempCtx.lineWidth = 10 * scaleX; // Scale brush size too
+      tempCtx.lineWidth = 10 * scaleX;
 
       brushPaths.forEach((path) => {
         if (path.length > 0) {
@@ -308,11 +308,8 @@ const ImageCanvas = () => {
       });
     }
 
-    // Export the binary mask
-    const link = document.createElement("a");
-    link.download = "binary_mask.png";
-    link.href = tempCanvas.toDataURL("image/png");
-    link.click();
+    // Return the data URL for preview
+    return tempCanvas.toDataURL("image/png");
   };
 
   const changeMode = (newMode: "rectangle" | "freehand" | "brushing") => {
@@ -354,6 +351,7 @@ const ImageCanvas = () => {
             changeMode={changeMode}
             resetAllModes={resetAllModes}
             exportBinaryMask={exportBinaryMask}
+            imageDimensions={imageDimensions}
           />
         ) : (
           <span className="text-gray-500">Upload an image to start</span>

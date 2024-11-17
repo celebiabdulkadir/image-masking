@@ -1,17 +1,22 @@
+import Image from "next/image";
 import React from "react";
 
 interface ConfirmModalProps {
+  imageDimensions?: { width: number; height: number };
   isOpen: boolean;
   message: string;
   onConfirm: () => void;
   onCancel: () => void;
+  previewImageUrl?: string; // Image URL for preview
 }
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
+  imageDimensions,
   isOpen,
   message,
   onConfirm,
   onCancel,
+  previewImageUrl,
 }) => {
   if (!isOpen) {
     return null;
@@ -19,14 +24,27 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-        {/* Modal Header */}
+      <div className="bg-white rounded-lg shadow-lg p-6 max-w-xl w-full">
         <h2 className="text-xl font-bold text-gray-800 text-center mb-4">
           Confirmation
         </h2>
-        {/* Modal Message */}
-        <p className="text-gray-600 text-center mb-6">{message}</p>
-        {/* Modal Buttons */}
+
+        {/* Responsive Image Container */}
+        {previewImageUrl && (
+          <div className="relative w-full flex justify-center mb-4">
+            <div className="relative w-full max-w-[90%] max-h-[50vh] aspect-square">
+              <Image
+                className="rounded object-contain"
+                src={previewImageUrl}
+                alt="Preview"
+                fill
+              />
+            </div>
+          </div>
+        )}
+
+        <p className="text-gray-600 text-center mt-4 mb-6">{message}</p>
+
         <div className="flex justify-center space-x-4">
           <button
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
