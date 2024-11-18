@@ -51,10 +51,13 @@ The **Image Masking Tool** is a Next.js application designed for image annotatio
 
 4. **Export Binary Mask**:
  <img width="1476" alt="image" src="https://github.com/user-attachments/assets/355c84e0-a0d9-4e50-9c98-4ec5e3a86ccc">
+
 5. **Help Page**:
 <img width="1420" alt="image" src="https://github.com/user-attachments/assets/487902c4-4274-487a-a67d-cbbf76a22c12">
+
 6. **About Page**:
 <img width="1443" alt="image" src="https://github.com/user-attachments/assets/f3f79155-7645-4af5-ae38-4eabacb0849d">
+
 7. **Contact Page**:
 <img width="1440" alt="image" src="https://github.com/user-attachments/assets/87038a41-15c8-4d5b-809a-01a8753ca420">
 
