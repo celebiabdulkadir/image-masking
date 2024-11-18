@@ -247,10 +247,9 @@ const ImageCanvas = () => {
     setIsDrawing(false);
 
     if (mode === "brushing" && currentPath.length > 0) {
-      setBrushPaths((prev) => [...prev, currentPath]);
+      setBrushPaths([currentPath]);
       setCurrentPath([]);
     }
-    // Remove the freehand path clearing
   };
 
   const handleMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
