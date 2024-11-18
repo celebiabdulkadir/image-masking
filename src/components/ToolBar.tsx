@@ -46,6 +46,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
     setConfirmModalOpen(false);
     setNotificationOpen(true); // Show notification after download
     setPreviewImageUrl(null);
+    resetAllModes(); // Reset all modes after download
   };
 
   return (
