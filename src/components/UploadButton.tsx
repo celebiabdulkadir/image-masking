@@ -65,24 +65,22 @@ const UploadComponent = ({ onImageUpload }: UploadComponentProps) => {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <div className="flex flex-col items-center gap-4">
-          <div className="flex gap-4 items-center">
-            <label htmlFor="file-upload" className="relative cursor-pointer">
-              <span className="bg-blue-100 flex  text-blue-800 px-4 py-2 rounded gap-2 items-center hover:bg-blue-200 transition-colors">
-                <FaUpload /> Choose File
-              </span>
-              <input
-                id="file-upload"
-                ref={fileInputRef}
-                type="file"
-                className="sr-only"
-                accept="image/png, image/jpeg, image/jpg"
-                onChange={handleImageUpload}
-              />
-            </label>
-          </div>
-          <p className="mt-2 text-sm text-gray-500">
-            or drag and drop your image here
+        <div className="flex flex-col items-center gap-2">
+          <label htmlFor="file-upload" className="relative cursor-pointer">
+            <span className="bg-blue-100 flex  text-blue-800 px-4 py-2 rounded gap-2 items-center hover:bg-blue-200 transition-colors">
+              <FaUpload /> Choose File
+            </span>
+            <input
+              id="file-upload"
+              ref={fileInputRef}
+              type="file"
+              className="sr-only"
+              accept="image/png, image/jpeg, image/jpg"
+              onChange={handleImageUpload}
+            />
+          </label>
+          <p className="text-xs sm:text-sm text-gray-500">
+            or drag and drop your image here (PNG, JPEG, JPG)
           </p>
         </div>
       </div>

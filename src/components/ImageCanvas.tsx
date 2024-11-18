@@ -365,7 +365,7 @@ const ImageCanvas = () => {
       className="flex flex-col items-center w-full gap-2"
     >
       {" "}
-      <h1 className="text-md md:text-lg lg:text-2xl py-4">
+      <h1 className="text-md md:text-lg lg:text-2xl py-4 font-bold">
         Image Masking Tool: Upload, Edit, Export
       </h1>
       <UploadComponent onImageUpload={handleImageUpload} />
@@ -380,7 +380,7 @@ const ImageCanvas = () => {
             exportBinaryMask={exportBinaryMask}
           />
         ) : (
-          <span className="text-gray-500"></span>
+          <span className="text-gray-500">Upload an image to get started!</span>
         )}
       </div>
       <div className="min-h-[55dvh] relative">

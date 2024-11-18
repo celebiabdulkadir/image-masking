@@ -29,7 +29,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div
         ref={modalRef}
-        className="bg-white rounded-lg shadow-lg p-6 max-w-xl w-full"
+        className="bg-white rounded-lg shadow-lg p-4 max-w-xl w-full mx-4"
       >
         <h2 className="text-xl font-bold text-gray-800 text-center mb-4">
           Confirmation
@@ -37,19 +37,18 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
         {/* Responsive Image Container */}
         {previewImageUrl && (
-          <div className="relative w-full flex justify-center mb-4">
-            <div className="relative w-full max-w-[90%] max-h-[50vh] aspect-square">
-              <Image
-                className="rounded object-contain"
-                src={previewImageUrl}
-                alt="Preview"
-                fill
-              />
-            </div>
+          <div className="relative w-full h-[60vh]  ">
+            <Image
+              className="rounded object-contain"
+              src={previewImageUrl}
+              alt="Preview"
+              fill
+              sizes="(max-width: 768px) 100vw, 768px"
+            />
           </div>
         )}
 
-        <p className="text-gray-600 text-center mt-4 mb-6">{message}</p>
+        <p className="text-gray-600 text-center mb-6">{message}</p>
 
         <div className="flex justify-center space-x-4">
           <button

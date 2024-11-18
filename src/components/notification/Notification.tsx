@@ -28,7 +28,7 @@ const Notification: React.FC<NotificationProps> = ({
 
   return (
     <div
-      className={`fixed top-4 left-4 z-50 flex items-center px-4 py-2 rounded shadow-lg ${typeStyles[type]}`}
+      className={`fixed top-4 right-4 z-50 flex items-center px-4 py-2 rounded shadow-lg ${typeStyles[type]}`}
     >
       <span className="mr-2 font-semibold">{type.toUpperCase()}:</span>
       <span>{message}</span>
