@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Image Masking Tool
 
-## Getting Started
+The **Image Masking Tool** is a Next.js application designed for image annotation and masking. Users can upload images, draw selections (rectangles, freehand paths, and brush strokes), and export a binary mask of their edits for further use. It is built with a focus on interactivity, flexibility, and simplicity.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Upload Images**: Users can upload their own images for editing.
+- **Draw Modes**:
+  - **Rectangle**: Create rectangular selections on the image.
+  - **Freehand**: Draw custom paths using freehand mode.
+  - **Brushing**: Paint over the image with a brush tool.
+- **Responsive Canvas**: The canvas adapts to screen sizes, ensuring a seamless experience across devices.
+- **Export Binary Mask**: Users can export their edits as a binary mask in PNG format.
+- **Reset Tools**: Easily clear selections or switch between drawing modes.
+- **Touch Support**: Fully functional on touch devices for easy annotation.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Demo
 
-## Learn More
+- **Live Link**: [http://image-masking-chi.vercel.app](#)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How to Use
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Upload an Image**:
+   - Click the "Upload" button and select an image from your device.
+2. **Choose a Drawing Mode**:
+   - Use the toolbar to select between `Rectangle`, `Freehand`, or `Brush` modes.
+3. **Draw on the Canvas**:
+   - Interact with the canvas by clicking or dragging your mouse (or finger on touch devices).
+4. **Export Binary Mask**:
+   - Once your edits are done, use the toolbar to export the binary mask as a PNG file.
+5. **Reset or Change Modes**:
+   - Clear your edits or switch between drawing modes at any time.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Screens
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Home Page**:
+   _(Add a screenshot of the initial page with placeholder image and upload button)_
+2. **Image Upload**:
+   _(Add a screenshot showing an uploaded image with tools visible)_
+
+3. **Annotation Example**:
+   _(Add a screenshot of the canvas with drawn annotations in different modes)_
+
+4. **Export Binary Mask**:
+   _(Add a screenshot of the binary mask output)_
+5. **Help Page**:
+_(Add a screenshot of the help page output)_
+6. **About Page**:
+_(Add a screenshot of the about page output)_
+7. **Contact Page**:
+_(Add a screenshot of the help page output)_
+
+---
+
+## Installation
+
+To run this project locally, follow these steps:
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- **Node.js**: v14 or above
+- **npm** or **yarn**
+
+### Steps
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/celebiabdulkadir/image-masking.git
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+4. Open the application in your browser:
+   ```bash
+   http://localhost:3000
+   ```
