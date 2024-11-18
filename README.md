@@ -27,7 +27,7 @@ The **Image Masking Tool** is a Next.js application designed for image annotatio
 ## How to Use
 
 1. **Upload an Image**:
-   - Click the "Upload" button and select an image from your device.
+   - Click the "Choose File" button and select an image from your device.
 2. **Choose a Drawing Mode**:
    - Use the toolbar to select between `Rectangle`, `Freehand`, or `Brush` modes.
 3. **Draw on the Canvas**:
