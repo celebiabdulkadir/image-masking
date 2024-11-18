@@ -20,7 +20,7 @@ The **Image Masking Tool** is a Next.js application designed for image annotatio
 
 ## Demo
 
-- **Live Link**: [http://image-masking-chi.vercel.app](#)
+- **Live Link**: [http://image-masking-chi.vercel.app](http://image-masking-chi.vercel.app)
 
 ---
 
@@ -42,21 +42,21 @@ The **Image Masking Tool** is a Next.js application designed for image annotatio
 ## Screens
 
 1. **Home Page**:
-   _(Add a screenshot of the initial page with placeholder image and upload button)_
+   <img width="1461" alt="image" src="https://github.com/user-attachments/assets/377fa124-e009-402b-8ebc-4b03abcca5ef">
 2. **Image Upload**:
-   _(Add a screenshot showing an uploaded image with tools visible)_
+   <img width="1467" alt="image" src="https://github.com/user-attachments/assets/6110e616-af4e-4814-9bd6-d9a59337d551">
 
 3. **Annotation Example**:
-   _(Add a screenshot of the canvas with drawn annotations in different modes)_
+  <img width="1352" alt="image" src="https://github.com/user-attachments/assets/dc12b3a4-869d-46ba-9007-433e6e7da8d4">
 
 4. **Export Binary Mask**:
-   _(Add a screenshot of the binary mask output)_
+ <img width="1476" alt="image" src="https://github.com/user-attachments/assets/355c84e0-a0d9-4e50-9c98-4ec5e3a86ccc">
 5. **Help Page**:
-_(Add a screenshot of the help page output)_
+<img width="1420" alt="image" src="https://github.com/user-attachments/assets/487902c4-4274-487a-a67d-cbbf76a22c12">
 6. **About Page**:
-_(Add a screenshot of the about page output)_
+<img width="1443" alt="image" src="https://github.com/user-attachments/assets/f3f79155-7645-4af5-ae38-4eabacb0849d">
 7. **Contact Page**:
-_(Add a screenshot of the help page output)_
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/87038a41-15c8-4d5b-809a-01a8753ca420">
 
 ---
 
@@ -68,7 +68,7 @@ To run this project locally, follow these steps:
 
 Ensure you have the following installed:
 
-- **Node.js**: v14 or above
+- **Node.js**: v20 or above
 - **npm** or **yarn**
 
 ### Steps
