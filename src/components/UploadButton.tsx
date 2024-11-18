@@ -68,7 +68,7 @@ const UploadComponent = ({ onImageUpload }: UploadComponentProps) => {
         <div className="flex flex-col items-center gap-2">
           <label htmlFor="file-upload" className="relative cursor-pointer">
             <span className="bg-blue-100 flex  text-blue-800 px-4 py-2 rounded gap-2 items-center hover:bg-blue-200 transition-colors">
-              <FaUpload /> Choose File
+              <FaUpload /> Upload File
             </span>
             <input
               id="file-upload"
